@@ -41,6 +41,16 @@ public class KafkaConsumerConfig {
 			ConsumerFactory<String, String> consumerFactory) {
 		var factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
 		factory.setConsumerFactory(consumerFactory);
+		factory.setConcurrency(2);
+
+		// Wrap virtual thread executor into Spring's AsyncTaskExecutor
+		// ONLY IN CASE VIRTUAL THREADS ARE NOT ENABLED GLOBALLY
+		//		SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor();
+		//		executor.setVirtualThreads(true); // Spring 6.1+ / Boot 3.2+
+		//		executor.setThreadNamePrefix("kafka-vt-");
+		//		executor.setConcurrencyLimit(3);
+		//		factory.getContainerProperties().setListenerTaskExecutor(executor);
+
 		return factory;
 	}
 }

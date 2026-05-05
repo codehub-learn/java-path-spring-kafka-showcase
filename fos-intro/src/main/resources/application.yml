@@ -11,6 +11,9 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       auto-offset-reset: earliest
       group-id: fos-intro-group
+  threads:
+    virtual:
+      enabled: true
 
 intro:
   topic:
