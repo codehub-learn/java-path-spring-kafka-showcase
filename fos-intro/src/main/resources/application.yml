@@ -20,3 +20,6 @@ intro:
     hello: intro.hello
     events: intro.events
     dlq: intro.dlq
+  scheduler:
+    event-rate-ms: 2000
+    batch-size: 5
