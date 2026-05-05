@@ -7,6 +7,10 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 @Component
 public class EventMessageConsumer {
 	private static final Logger log = LogManager.getLogger(EventMessageConsumer.class);
@@ -19,9 +23,11 @@ public class EventMessageConsumer {
 			concurrency = "3"
 	)
 	public void receive(ConsumerRecord<String, String> record, Acknowledgment ack) {
+		LocalDateTime timestamp = LocalDateTime.ofInstant(
+				Instant.ofEpochMilli(record.timestamp()), ZoneId.systemDefault());
 		log.info("Received: listener={}, topic={}, partition={}, offset={}, key={}, value={} at {}",
 		         Thread.currentThread().getName(), record.topic(), record.partition(), record.offset(), record.key(),
-		         record.value(), record.timestamp());
+		         record.value(), timestamp);
 		ack.acknowledge();
 	}
 }
