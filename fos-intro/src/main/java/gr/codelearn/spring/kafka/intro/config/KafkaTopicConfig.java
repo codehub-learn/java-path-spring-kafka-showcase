@@ -26,6 +26,8 @@ public class KafkaTopicConfig {
 	public KafkaAdmin kafkaAdmin() {
 		Map<String, Object> configs = new HashMap<>();
 		configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+		configs.put(AdminClientConfig.CLIENT_ID_CONFIG, "local-admin-1");
+		configs.put(AdminClientConfig.CONNECTIONS_MAX_IDLE_MS_CONFIG, "60000");
 		return new KafkaAdmin(configs);
 	}
 
