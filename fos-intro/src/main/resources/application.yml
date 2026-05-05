@@ -15,3 +15,5 @@ spring:
 intro:
   topic:
     hello: intro.hello
+    events: intro.events
+    dlq: intro.dlq

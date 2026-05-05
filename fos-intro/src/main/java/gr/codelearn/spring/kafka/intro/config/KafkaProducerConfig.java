@@ -1,5 +1,6 @@
 package gr.codelearn.spring.kafka.intro.config;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,12 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@RequiredArgsConstructor
 public class KafkaProducerConfig {
-	private final String bootstrapServers;
-
-	KafkaProducerConfig(@Value("${spring.kafka.bootstrap-servers}") String bootstrapServers) {
-		this.bootstrapServers = bootstrapServers;
-	}
+	@Value("${spring.kafka.bootstrap-servers}")
+	private String bootstrapServers;
 
 	private Map<String, Object> producerProperties() {
 		Map<String, Object> props = new HashMap<>();

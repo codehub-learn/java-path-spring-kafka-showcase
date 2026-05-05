@@ -1,5 +1,6 @@
 package gr.codelearn.spring.kafka.intro.config;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,16 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@RequiredArgsConstructor
 public class KafkaConsumerConfig {
-	private final String bootstrapServers;
-	private final String groupId;
-
-	KafkaConsumerConfig(
-			@Value("${spring.kafka.bootstrap-servers}") String bootstrapServers,
-			@Value("${spring.kafka.consumer.group-id}") String groupId) {
-		this.bootstrapServers = bootstrapServers;
-		this.groupId = groupId;
-	}
+	@Value("${spring.kafka.bootstrap-servers}")
+	private String bootstrapServers;
+	@Value("${spring.kafka.consumer.group-id}")
+	private String groupId;
 
 	private Map<String, Object> consumerProperties() {
 		Map<String, Object> props = new HashMap<>();

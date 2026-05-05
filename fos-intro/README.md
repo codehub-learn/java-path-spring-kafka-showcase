@@ -5,8 +5,8 @@ Demonstrates Spring Kafka fundamentals:
 - **AdminClient** — programmatic topic creation via `NewTopic` beans and `KafkaAdmin`
 - **Producer** — explicit `ProducerFactory` + `KafkaTemplate<String, String>` configuration
 - **Consumer** — explicit `ConsumerFactory` + `ConcurrentKafkaListenerContainerFactory`, `@KafkaListener`
-- **Topic name externalisation** — `TopicsConfig` record + `@ConfigurationProperties`, referenced via SpEL in
-  `@KafkaListener`
+- **Topic name externalisation** — `TopicsConfig` record + `@ConfigurationProperties`; topic referenced via
+  `${intro.topic.hello}` property placeholder in `@KafkaListener`
 
 On startup `IntroRunner` sends two messages; `HelloMessageConsumer` logs each one received.
 
