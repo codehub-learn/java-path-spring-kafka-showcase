@@ -45,7 +45,7 @@ public class KafkaTopicConfig {
 	public KafkaAdmin.NewTopics introTopics() {
 		return new KafkaAdmin.NewTopics(
 				TopicBuilder.name(topicsConfig.events())
-				            .partitions(3)
+				            .partitions(9)
 				            .replicas(3)
 				            .config(TopicConfig.RETENTION_MS_CONFIG, "86400000")
 				            .config(TopicConfig.RETENTION_BYTES_CONFIG, "256000")
