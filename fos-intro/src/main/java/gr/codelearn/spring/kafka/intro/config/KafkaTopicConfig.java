@@ -3,6 +3,7 @@ package gr.codelearn.spring.kafka.intro.config;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.common.config.TopicConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +45,9 @@ public class KafkaTopicConfig {
 				TopicBuilder.name(topicsConfig.events())
 				            .partitions(3)
 				            .replicas(3)
+				            .config(TopicConfig.RETENTION_MS_CONFIG, "86400000")
+				            .config(TopicConfig.RETENTION_BYTES_CONFIG, "256000")
+				            .config(TopicConfig.MIN_IN_SYNC_REPLICAS_CONFIG, "2")
 				            .build(),
 				TopicBuilder.name(topicsConfig.dlq())
 				            .partitions(1)
