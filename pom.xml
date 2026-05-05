@@ -29,6 +29,7 @@
 
 	<!-- Modules -->
 	<modules>
+		<module>fos-intro</module>
 	</modules>
 
 	<!-- Properties/Variables -->
@@ -48,19 +49,6 @@
 		<maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-kafka</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-kafka-test</artifactId>
-				<scope>test</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<!-- Dependencies -->
 	<dependencies>
@@ -179,8 +167,6 @@
 								plugin, a new compiler parameter to replace the source and target version parameters
 								-->
 								<release>${java.version}</release>
-								<forceJavacCompilerUse>true</forceJavacCompilerUse>
-								<optimize>true</optimize>
 								<fork>true</fork>
 								<annotationProcessorPaths>
 									<path>
@@ -199,8 +185,6 @@
 							</goals>
 							<configuration>
 								<release>${java.version}</release>
-								<forceJavacCompilerUse>true</forceJavacCompilerUse>
-								<optimize>true</optimize>
 								<fork>true</fork>
 								<annotationProcessorPaths>
 									<path>
