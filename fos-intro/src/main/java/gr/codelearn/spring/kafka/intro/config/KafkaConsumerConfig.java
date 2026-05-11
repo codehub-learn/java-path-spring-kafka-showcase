@@ -29,6 +29,15 @@ public class KafkaConsumerConfig {
 		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 		props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+		// Controls the maximum number of records returned in a single poll() call:
+		props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 50);
+		// If the consumer doesn't poll within this interval, the broker considers it dead and triggers a rebalance:
+		props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 300000);
+		// Broker waits until at least 1KB of data is available
+		props.put(ConsumerConfig.FETCH_MIN_BYTES_CONFIG, 1);
+		// But won't wait longer than these ms regardless
+		props.put(ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG, 500);
+		props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
 		return props;
 	}
 
@@ -61,6 +70,9 @@ public class KafkaConsumerConfig {
 		var factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
 		factory.setConsumerFactory(consumerFactory);
 		factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
+		factory.getContainerProperties().setPollTimeout(1000L);
+		factory.getContainerProperties().setIdleBetweenPolls(250L);
+		factory.getContainerProperties().setIdleEventInterval(60000L);
 		return factory;
 	}
 }

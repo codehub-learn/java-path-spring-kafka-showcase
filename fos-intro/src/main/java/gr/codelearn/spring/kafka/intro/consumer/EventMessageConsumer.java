@@ -3,7 +3,9 @@ package gr.codelearn.spring.kafka.intro.consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.event.EventListener;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.event.ListenerContainerIdleEvent;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
@@ -29,5 +31,10 @@ public class EventMessageConsumer {
 		         Thread.currentThread().getName(), record.topic(), record.partition(), record.offset(), record.key(),
 		         record.value(), timestamp);
 		ack.acknowledge();
+	}
+
+	@EventListener
+	public void onIdle(ListenerContainerIdleEvent event) {
+		log.warn("No messages received for 60 seconds on container: {}", event.getListenerId());
 	}
 }
