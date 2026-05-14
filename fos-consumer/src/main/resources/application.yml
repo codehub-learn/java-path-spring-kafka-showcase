@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: fos-consumer
+  kafka:
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+    consumer:
+      group-id: fos-consumer-group
+      auto-offset-reset: earliest
+  threads:
+    virtual:
+      enabled: true
+
+fos:
+  topics:
+    placed: food.orders.placed
+    status-updated: food.orders.status-updated
+    cancelled: food.orders.cancelled
+    dlq: food.orders.dlq

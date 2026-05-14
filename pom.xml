@@ -31,6 +31,8 @@
 	<modules>
 		<module>fos-intro</module>
 		<module>fos-domain</module>
+		<module>fos-producer</module>
+		<module>fos-consumer</module>
 	</modules>
 
 	<!-- Properties/Variables -->
@@ -143,12 +145,14 @@
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
 					<configuration>
-						<excludes>
-							<exclude>
-								<groupId>org.projectlombok</groupId>
-								<artifactId>lombok</artifactId>
-							</exclude>
-						</excludes>
+						<excludeGroupIds>
+							org.apache.xmlbeans,
+							org.mapstruct,
+							org.projectlombok
+						</excludeGroupIds>
+						<layers>
+							<enabled>true</enabled>
+						</layers>
 					</configuration>
 				</plugin>
 				<plugin>
