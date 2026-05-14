@@ -80,7 +80,14 @@ class OrderEventProducerTest {
 
 		orderEventProducer.send(event);
 
-		var record = records.poll(10, TimeUnit.SECONDS);
+		ConsumerRecord<String, OrderPlacedEvent> record = null;
+		for (int i = 0; i < 10; i++) {
+			var candidate = records.poll(1, TimeUnit.SECONDS);
+			if (candidate != null && "ord-test-1".equals(candidate.value().orderId())) {
+				record = candidate;
+				break;
+			}
+		}
 		assertThat(record).isNotNull();
 		assertThat(record.topic()).isEqualTo(placedTopic);
 		assertThat(record.key()).isEqualTo("rest-1");
