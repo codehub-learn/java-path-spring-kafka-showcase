@@ -30,6 +30,7 @@
 	<!-- Modules -->
 	<modules>
 		<module>fos-intro</module>
+		<module>fos-domain</module>
 	</modules>
 
 	<!-- Properties/Variables -->
