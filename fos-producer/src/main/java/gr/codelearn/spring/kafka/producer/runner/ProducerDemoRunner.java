@@ -39,6 +39,7 @@ public class ProducerDemoRunner implements CommandLineRunner {
 		sendMultiTypeDemo();
 		sendRoutingDemo();
 		sendReplyDemo();
+		sendDlqDemo();
 		log.info("--- ProducerDemoRunner: done ---");
 	}
 
@@ -119,6 +120,16 @@ public class ProducerDemoRunner implements CommandLineRunner {
 		routingEventProducer.send(new OrderPlacedEvent("order-demo-routing-1", "cust-006", "rest-006",
 		                                               List.of("Falafel Wrap"), new BigDecimal("4.90"),
 		                                               LocalDateTime.now()));
+	}
+
+	// Demonstrates DLQ routing: sends 3 cancelled events so OrderCancelledEventConsumer's simulated
+	// failure fires on the 3rd, exhausts retries, and DeadLetterPublishingRecoverer routes it to DLT
+	private void sendDlqDemo() {
+		log.info("--- [DLQ demo] --- (3rd event will fail after retries and land in DLQ)");
+		for (int i = 1; i <= 3; i++) {
+			orderEventProducer.send(new OrderCancelledEvent(
+					"order-demo-dlq-" + i, "Simulated cancellation " + i, LocalDateTime.now()));
+		}
 	}
 
 	// Demonstrates ReplyingKafkaTemplate: sends a request and awaits a correlated reply

@@ -16,3 +16,12 @@ fos:
     status-updated: food.orders.status-updated
     cancelled: food.orders.cancelled
     dlq: food.orders.dlq
+    analytics: food.orders.analytics
+
+  # --- Consumer toggle flags ---
+  # Set to true to re-enable the original single-record consumers (manual ack / auto ack patterns)
+  consumers:
+    placed-consumer:
+      auto-start: false   # OrderPlacedEventConsumer — manual ack pattern
+    status-consumer:
+      auto-start: false   # OrderStatusEventConsumer — auto ack pattern

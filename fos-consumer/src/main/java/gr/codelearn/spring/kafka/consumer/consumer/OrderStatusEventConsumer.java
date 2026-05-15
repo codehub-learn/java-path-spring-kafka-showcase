@@ -12,10 +12,11 @@ public class OrderStatusEventConsumer {
 
 	@KafkaListener(
 			topics = "${fos.topics.status-updated}",
-			containerFactory = "consumerKafkaListenerContainerFactory")
+			containerFactory = "consumerKafkaListenerContainerFactory",
+			autoStartup = "${fos.consumers.status-consumer.auto-start:false}")
 	public void receive(ConsumerRecord<String, OrderStatusUpdatedEvent> record) {
 		var event = record.value();
-		log.info("Order status updated  orderId={}  {} -> {}",
+		log.info("Order status updated orderId={} {} -> {}",
 		         event.orderId(), event.previousStatus(), event.newStatus());
 	}
 }

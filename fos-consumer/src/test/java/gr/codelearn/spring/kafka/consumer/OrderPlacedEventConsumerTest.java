@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(properties = "fos.consumers.placed-consumer.auto-start=true")
 @DirtiesContext
 @EmbeddedKafka(partitions = 3, topics = "${fos.topics.placed}")
 class OrderPlacedEventConsumerTest {

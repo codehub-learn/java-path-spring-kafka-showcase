@@ -29,12 +29,10 @@ public class KafkaTopicConfig {
 	}
 
 	@Bean
-	public KafkaAdmin.NewTopics dlqTopic() {
+	public KafkaAdmin.NewTopics consumerManagedTopics() {
 		return new KafkaAdmin.NewTopics(
-				TopicBuilder.name(topicsConfig.dlq())
-				            .partitions(1)
-				            .replicas(3)
-				            .build()
+				TopicBuilder.name(topicsConfig.dlq()).partitions(1).replicas(3).build(),
+				TopicBuilder.name(topicsConfig.analytics()).partitions(6).replicas(3).build()
 		);
 	}
 }

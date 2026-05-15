@@ -18,9 +18,10 @@ public class OrderPlacedEventConsumer {
 
 	@KafkaListener(
 			topics = "${fos.topics.placed}",
-			containerFactory = "consumerManualAckKafkaListenerContainerFactory")
+			containerFactory = "consumerManualAckKafkaListenerContainerFactory",
+			autoStartup = "${fos.consumers.placed-consumer.auto-start:false}")
 	public void receive(ConsumerRecord<String, OrderPlacedEvent> record, Acknowledgment ack) {
-		log.debug("Received OrderPlacedEvent  partition={}  offset={}  key={}",
+		log.debug("Received OrderPlacedEvent partition={} offset={} key={}",
 		          record.partition(), record.offset(), record.key());
 		orderProcessingService.process(record.value());
 		ack.acknowledge();

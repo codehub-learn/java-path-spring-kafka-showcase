@@ -14,13 +14,13 @@ import java.util.List;
 public class OrderAnalyticsBatchConsumer {
 
 	@KafkaListener(
-			topics = "${fos.topics.placed}",
+			topics = "${fos.topics.analytics}",
 			groupId = "fos-consumer-analytics",
 			containerFactory = "consumerBatchKafkaListenerContainerFactory")
 	public void receive(List<ConsumerRecord<String, OrderPlacedEvent>> records) {
 		var totalRevenue = records.stream()
 		                          .map(r -> r.value().totalAmount())
 		                          .reduce(BigDecimal.ZERO, BigDecimal::add);
-		log.info("Analytics batch  batchSize={}  totalRevenue={}", records.size(), totalRevenue);
+		log.info("Analytics batch batchSize={} totalRevenue={}", records.size(), totalRevenue);
 	}
 }

@@ -23,7 +23,7 @@ public class OrderCancelledEventConsumer {
 			throw new RuntimeException("Simulated failure — message will be retried then routed to DLT");
 		}
 		var event = record.value();
-		log.info("Order cancelled  orderId={}  reason={}  cancelledAt={}",
+		log.info("Order cancelled orderId={} reason={} cancelledAt={}",
 		         event.orderId(), event.reason(), event.cancelledAt());
 	}
 }
