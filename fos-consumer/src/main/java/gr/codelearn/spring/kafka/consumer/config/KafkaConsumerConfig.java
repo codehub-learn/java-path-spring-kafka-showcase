@@ -3,7 +3,7 @@ package gr.codelearn.spring.kafka.consumer.config;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.ByteArraySerializer;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +33,9 @@ public class KafkaConsumerConfig {
 
 	@Value("${spring.kafka.consumer.group-id}")
 	private String groupId;
+
+	@Value("${fos.topics.dlq}")
+	private String dlqTopic;
 
 	private Map<String, Object> baseConsumerProps() {
 		Map<String, Object> props = new HashMap<>();
@@ -114,18 +117,22 @@ public class KafkaConsumerConfig {
 	@Bean
 	public DefaultErrorHandler retryDltErrorHandler() {
 		var backOff = new ExponentialBackOff(1000L, 2.0);
-		backOff.setMaxElapsedTime(30000L);
-		var recoverer = new DeadLetterPublishingRecoverer(dltKafkaTemplate());
+		backOff.setMaxElapsedTime(10000L);
+		// Custom resolver overrides the default "{topic}.DLT" naming — all failures go to the single DLQ topic
+		var recoverer = new DeadLetterPublishingRecoverer(dltKafkaTemplate(),
+		                                                  (record, ex) -> new TopicPartition(dlqTopic, 0));
 		return new DefaultErrorHandler(recoverer, backOff);
 	}
 
-	// Dedicated byte-passthrough template for DLT — forwards raw bytes from the failed consumer record
+	// DLT template: listener threw after successful deserialization, so record.value() is a Java object —
+	// JacksonJsonSerializer re-serializes it so the DLQ consumer can read it normally
 	@Bean
-	public KafkaTemplate<byte[], byte[]> dltKafkaTemplate() {
+	public KafkaTemplate<String, Object> dltKafkaTemplate() {
 		Map<String, Object> props = new HashMap<>();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class);
-		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class);
+		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JacksonJsonSerializer.class);
+		props.put(JacksonJsonSerializer.ADD_TYPE_INFO_HEADERS, true);
 		return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(props));
 	}
 }
