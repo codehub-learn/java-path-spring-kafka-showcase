@@ -6,6 +6,7 @@ import gr.codelearn.spring.kafka.domain.event.OrderPlacedEvent;
 import gr.codelearn.spring.kafka.domain.event.OrderStatusUpdatedEvent;
 import gr.codelearn.spring.kafka.producer.producer.MultiTypeEventProducer;
 import gr.codelearn.spring.kafka.producer.producer.OrderEventProducer;
+import gr.codelearn.spring.kafka.producer.producer.ReplyingEventProducer;
 import gr.codelearn.spring.kafka.producer.producer.RoutingEventProducer;
 import gr.codelearn.spring.kafka.producer.producer.TransactionalOrderEventProducer;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class ProducerDemoRunner implements CommandLineRunner {
 	private final TransactionalOrderEventProducer transactionalOrderEventProducer;
 	private final MultiTypeEventProducer multiTypeEventProducer;
 	private final RoutingEventProducer routingEventProducer;
+	private final ReplyingEventProducer replyingEventProducer;
 
 	@Override
 	public void run(String... args) {
@@ -36,6 +38,7 @@ public class ProducerDemoRunner implements CommandLineRunner {
 		sendTransactionalDemo();
 		sendMultiTypeDemo();
 		sendRoutingDemo();
+		sendReplyDemo();
 		log.info("--- ProducerDemoRunner: done ---");
 	}
 
@@ -116,5 +119,13 @@ public class ProducerDemoRunner implements CommandLineRunner {
 		routingEventProducer.send(new OrderPlacedEvent("order-demo-routing-1", "cust-006", "rest-006",
 		                                               List.of("Falafel Wrap"), new BigDecimal("4.90"),
 		                                               LocalDateTime.now()));
+	}
+
+	// Demonstrates ReplyingKafkaTemplate: sends a request and awaits a correlated reply
+	private void sendReplyDemo() {
+		log.info("--- [replying template demo] ---");
+		replyingEventProducer.sendAndReceive(new OrderPlacedEvent(
+				"order-demo-reply-1", "cust-007", "rest-007",
+				List.of("Tiramisu"), new BigDecimal("3.50"), LocalDateTime.now()));
 	}
 }

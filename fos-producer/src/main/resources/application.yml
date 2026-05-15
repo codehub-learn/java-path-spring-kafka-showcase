@@ -16,3 +16,5 @@ fos:
     status-updated: food.orders.status-updated
     cancelled: food.orders.cancelled
     dlq: food.orders.dlq
+    order-request: food.orders.order-request
+    reply: food.orders.reply

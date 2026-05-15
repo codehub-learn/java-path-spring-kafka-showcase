@@ -48,7 +48,9 @@ public class KafkaTopicConfig {
 				            .partitions(3)
 				            .replicas(3)
 				            .config(TopicConfig.MIN_IN_SYNC_REPLICAS_CONFIG, "2")
-				            .build()
+				            .build(),
+				TopicBuilder.name(topicsConfig.orderRequest()).partitions(1).replicas(1).build(),
+				TopicBuilder.name(topicsConfig.reply()).partitions(1).replicas(1).build()
 		);
 	}
 }
