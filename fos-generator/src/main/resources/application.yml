@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: fos-generator
+  kafka:
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: 18081
+
+fos:
+  topics:
+    placed: food.orders.placed
+    status-updated: food.orders.status-updated
+    cancelled: food.orders.cancelled
+
+  generator:
+    orders-per-tick: 5
+    spawn-interval-ms: 3000
+    advance-interval-ms: 2000
+    min-dwell-seconds: 3
+    max-dwell-seconds: 15
+    cancellation-probability: 0.15
+    delivery-failure-probability: 0.10

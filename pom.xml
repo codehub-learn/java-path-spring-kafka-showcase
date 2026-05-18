@@ -33,6 +33,7 @@
 		<module>fos-domain</module>
 		<module>fos-producer</module>
 		<module>fos-consumer</module>
+		<module>fos-generator</module>
 	</modules>
 
 	<!-- Properties/Variables -->
