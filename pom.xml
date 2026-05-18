@@ -34,6 +34,7 @@
 		<module>fos-producer</module>
 		<module>fos-consumer</module>
 		<module>fos-generator</module>
+		<module>fos-streams</module>
 	</modules>
 
 	<!-- Properties/Variables -->

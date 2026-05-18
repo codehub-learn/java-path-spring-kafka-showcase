@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: fos-streams
+  kafka:
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+    streams:
+      application-id: fos-streams
+      default-key-serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      properties:
+        commit.interval.ms: 1000
+        cache.max.bytes.buffering: 10485760
+  threads:
+    virtual:
+      enabled: true
+
+fos:
+  topics:
+    placed: food.orders.placed
+    status-updated: food.orders.status-updated
+    cancelled: food.orders.cancelled
+    analytics:
+      order-enriched: food.analytics.order-enriched
+      orders-completed: food.analytics.orders-completed
+      orders-failed: food.analytics.orders-failed
+      restaurant-order-count: food.analytics.restaurant-order-count
+      restaurant-throughput: food.analytics.restaurant-throughput
+      restaurant-revenue: food.analytics.restaurant-revenue
+      courier-deliveries: food.analytics.courier-deliveries
+      order-duration: food.analytics.order-duration
+      order-outcomes: food.analytics.order-outcomes
+      customer-spend: food.analytics.customer-spend
