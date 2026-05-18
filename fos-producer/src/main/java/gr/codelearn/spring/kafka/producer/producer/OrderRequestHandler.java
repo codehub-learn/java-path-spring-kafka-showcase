@@ -23,6 +23,6 @@ public class OrderRequestHandler {
 	public OrderStatusUpdatedEvent handle(OrderPlacedEvent request) {
 		log.info("OrderRequestHandler received orderId={} restaurantId={}", request.orderId(), request.restaurantId());
 		return new OrderStatusUpdatedEvent(
-				request.orderId(), OrderStatus.PLACED, OrderStatus.ACCEPTED, LocalDateTime.now());
+				request.orderId(), OrderStatus.PLACED, OrderStatus.ACCEPTED, LocalDateTime.now(), null);
 	}
 }

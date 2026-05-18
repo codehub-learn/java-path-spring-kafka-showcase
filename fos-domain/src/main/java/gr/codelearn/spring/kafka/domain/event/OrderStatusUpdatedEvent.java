@@ -8,5 +8,6 @@ public record OrderStatusUpdatedEvent(
 		String orderId,
 		OrderStatus previousStatus,
 		OrderStatus newStatus,
-		LocalDateTime updatedAt) {
+		LocalDateTime updatedAt,
+		String courierId) {
 }

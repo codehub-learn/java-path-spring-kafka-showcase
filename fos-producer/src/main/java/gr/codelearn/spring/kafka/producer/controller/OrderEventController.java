@@ -51,7 +51,7 @@ public class OrderEventController {
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void updateStatus(@PathVariable String orderId, @RequestBody UpdateOrderStatusRequest request) {
 		orderEventProducer.send(new OrderStatusUpdatedEvent(
-				orderId, request.previousStatus(), request.newStatus(), LocalDateTime.now()));
+				orderId, request.previousStatus(), request.newStatus(), LocalDateTime.now(), null));
 	}
 
 	@DeleteMapping("/{orderId}")

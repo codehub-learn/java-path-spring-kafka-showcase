@@ -61,7 +61,7 @@ public class ProducerDemoRunner implements CommandLineRunner {
 				new OrderStatus[]{OrderStatus.PICKED_UP, OrderStatus.DELIVERED}
 		                         );
 		for (var t : transitions) {
-			orderEventProducer.send(new OrderStatusUpdatedEvent(orderId, t[0], t[1], LocalDateTime.now()));
+			orderEventProducer.send(new OrderStatusUpdatedEvent(orderId, t[0], t[1], LocalDateTime.now(), null));
 		}
 	}
 
@@ -76,7 +76,7 @@ public class ProducerDemoRunner implements CommandLineRunner {
 				new BigDecimal("11.90"), LocalDateTime.now()));
 
 		orderEventProducer.send(new OrderStatusUpdatedEvent(
-				orderId, OrderStatus.PLACED, OrderStatus.ACCEPTED, LocalDateTime.now()));
+				orderId, OrderStatus.PLACED, OrderStatus.ACCEPTED, LocalDateTime.now(), null));
 
 		orderEventProducer.send(new OrderCancelledEvent(
 				orderId, "Customer changed their mind", LocalDateTime.now()));
@@ -97,7 +97,7 @@ public class ProducerDemoRunner implements CommandLineRunner {
 		var placed = new OrderPlacedEvent(orderId, "cust-004", "rest-004",
 		                                  List.of("Caesar Salad"), new BigDecimal("6.50"), LocalDateTime.now());
 		var accepted = new OrderStatusUpdatedEvent(orderId, OrderStatus.PLACED, OrderStatus.ACCEPTED,
-		                                           LocalDateTime.now());
+		                                           LocalDateTime.now(), null);
 		transactionalOrderEventProducer.sendAtomically(placed, accepted);
 	}
 
@@ -109,7 +109,7 @@ public class ProducerDemoRunner implements CommandLineRunner {
 		var placed = new OrderPlacedEvent(orderId, "cust-005", "rest-005",
 		                                  List.of("Gyros"), new BigDecimal("5.80"), LocalDateTime.now());
 		var statusUpdate = new OrderStatusUpdatedEvent(orderId, OrderStatus.PLACED, OrderStatus.ACCEPTED,
-		                                               LocalDateTime.now());
+		                                               LocalDateTime.now(), null);
 		var cancelled = new OrderCancelledEvent(orderId, "Out of stock", LocalDateTime.now());
 		multiTypeEventProducer.sendOrderLifecycle(placed, statusUpdate, cancelled);
 	}

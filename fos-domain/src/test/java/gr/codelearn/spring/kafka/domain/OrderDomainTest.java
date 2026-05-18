@@ -53,8 +53,8 @@ class OrderDomainTest {
 		var placed2 = new OrderPlacedEvent("ord-1", "cust-1", "rest-1", List.of("Pizza"), new BigDecimal("9.99"), now);
 		assertEquals(placed1, placed2);
 
-		var updated1 = new OrderStatusUpdatedEvent("ord-1", OrderStatus.PLACED, OrderStatus.ACCEPTED, now);
-		var updated2 = new OrderStatusUpdatedEvent("ord-1", OrderStatus.PLACED, OrderStatus.ACCEPTED, now);
+		var updated1 = new OrderStatusUpdatedEvent("ord-1", OrderStatus.PLACED, OrderStatus.ACCEPTED, now, null);
+		var updated2 = new OrderStatusUpdatedEvent("ord-1", OrderStatus.PLACED, OrderStatus.ACCEPTED, now, null);
 		assertEquals(updated1, updated2);
 
 		var cancelled1 = new OrderCancelledEvent("ord-1", "Out of stock", now);
